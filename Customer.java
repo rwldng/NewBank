@@ -3,16 +3,15 @@ package newbank.server;
 import java.util.ArrayList;
 
 public class Customer {
-	
 	private ArrayList<Account> accounts;
 	
 	public Customer() {
-		accounts = new ArrayList<>();
+		this.accounts = new ArrayList<Account>();
 	}
 	
 	public String accountsToString() {
 		String s = "";
-		for(Account a : accounts) {
+		for(Account a : this.accounts) {
 			s += a.toString();
 		}
 		return s;
