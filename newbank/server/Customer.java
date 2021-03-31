@@ -3,13 +3,13 @@ package newbank.server;
 import java.util.ArrayList;
 
 public class Customer {
-	
+
 	private ArrayList<Account> accounts;
-	
+
 	public Customer() {
 		accounts = new ArrayList<>();
 	}
-	
+
 	public String accountsToString() {
 		String s = "";
 		for(Account a : accounts) {
@@ -19,6 +19,10 @@ public class Customer {
 	}
 
 	public void addAccount(Account account) {
-		accounts.add(account);		
+		accounts.add(account);
+	}
+
+	public Account getDefaultAccount() {
+		return accounts.get(0);
 	}
 }
