@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Customer {
 	private ArrayList<Account> accounts;
-	
+
 	public Customer() {
 		this.accounts = new ArrayList<Account>();
 	}
-	
+
 	public String accountsToString() {
 		String s = "";
 		for(Account a : this.accounts) {
@@ -18,6 +18,10 @@ public class Customer {
 	}
 
 	public void addAccount(Account account) {
-		accounts.add(account);		
+		accounts.add(account);
+	}
+
+	public Account getDefaultAccount() {
+		return accounts.get(0);
 	}
 }
