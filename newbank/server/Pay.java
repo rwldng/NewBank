@@ -11,6 +11,7 @@ public class Pay {
         return input.chars().allMatch(Character::isDigit);
     }
 
+    // parses payment request
     public boolean handlePaymentRequest(Account sender, String request) {
         String[] requestParts = request.split(" ");
         int length = requestParts.length;
@@ -25,17 +26,17 @@ public class Pay {
         }
 
         double paymentAmount = Double.parseDouble(requestParts[end]);
-        String[] recipientParts = Arrays.copyOfRange(requestParts, start, end);
-        String recipient = String.join(" ", recipientParts);
 
-        return makePayment(sender, paymentAmount, recipient);
+        return makePayment(sender, paymentAmount);
     }
 
-    public boolean makePayment(Account sender, double paymentAmount, String recipient) {
+    // deducts amount from account
+    public boolean makePayment(Account sender, double paymentAmount) {
         try {
             sender.subtractAmount(paymentAmount);
             return true;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }

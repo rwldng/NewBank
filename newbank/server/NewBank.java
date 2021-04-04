@@ -28,6 +28,12 @@ public class NewBank {
 		customers.put("John", john);
 	}
 
+	// sources relevant enum for request
+	private Action parseAction(String request) {
+		String parsedRequest = request.split(" ")[0];
+		return Action.valueOf(parsedRequest);
+	}
+
 	public static NewBank getBank() {
 		return bank;
 	}
@@ -42,10 +48,12 @@ public class NewBank {
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
 		if(customers.containsKey(customer.getKey())) {
-			String directive = request.split(" ")[0];
-			switch(directive) {
-			case "SHOWMYACCOUNTS" : return showMyAccounts(customer);
-			case "PAY" :
+			Action action = parseAction(request);
+			switch(action) {
+			case SHOWMYACCOUNTS: return showMyAccounts(customer);
+			case NEWACCOUNT:
+			case MOVE:
+			case PAY:
 				Account sender = customers.get(customer.getKey()).getDefaultAccount();
 				if(pay.handlePaymentRequest(sender, request)) {
 					return "SUCCESS";

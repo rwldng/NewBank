@@ -22,6 +22,9 @@ public class Customer {
 	}
 
 	public Account getDefaultAccount() {
-		return accounts.get(0);
+		if(!accounts.isEmpty()) {
+			return accounts.get(0);
+		}
+		return null;
 	}
 }
