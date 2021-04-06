@@ -6,6 +6,7 @@ import java.lang.String;
 public class NewBank {
 
 	private static final NewBank bank = new NewBank();
+	private Authentication auth = new Authentication();
 	private HashMap<String,Customer> customers;
 	private Pay pay = new Pay();
 
@@ -15,17 +16,20 @@ public class NewBank {
 	}
 
 	private void addTestData() {
-		Customer bhagy = new Customer();
-		bhagy.addAccount(new Account("Bhagy","Main", 1000.0));
-		customers.put("Bhagy", bhagy);
+		String user1 = "Bhagy";
+		auth.addNewCustomer(user1, "password1");
+		Customer bhagy = auth.getCustomerFromUsername(user1);
+		bhagy.addAccount(new Account(user1, "Main", 1000.0));
 
-		Customer christina = new Customer();
-		christina.addAccount(new Account("Christina", "Savings", 1500.0));
-		customers.put("Christina", christina);
+		String user2 = "Christina";
+		auth.addNewCustomer(user2, "password2");
+		Customer christina = auth.getCustomerFromUsername(user2);
+		christina.addAccount(new Account(user2, "Savings", 1500.0));
 
-		Customer john = new Customer();
+		String user3 = "John";
+		auth.addNewCustomer(user3, "password3");
+		Customer john = auth.getCustomerFromUsername(user3);
 		john.addAccount(new Account("John","Checking", 250.0));
-		customers.put("John", john);
 	}
 
 	// sources relevant enum for request
@@ -38,6 +42,10 @@ public class NewBank {
 		return bank;
 	}
 
+	public Authentication getAuthData() {
+		return auth;
+	}
+
 	public synchronized CustomerID checkLogInDetails(String userName, String password) {
 		if(customers.containsKey(userName)) {
 			return new CustomerID(userName);
@@ -47,15 +55,17 @@ public class NewBank {
 
 	// commands from the NewBank customer are processed in this method
 	public synchronized String processRequest(CustomerID customer, String request) {
-		if(customers.containsKey(customer.getKey())) {
+		if(auth.isUsernameValid(customer.getKey()) != null) {
 			Action action = parseAction(request);
 			switch(action) {
-			case SHOWMYACCOUNTS: return showMyAccounts(customer);
+			case SHOWMYACCOUNTS:
+				return showMyAccounts(customer);
 			case NEWACCOUNT:
 			case MOVE:
 			case PAY:
-				Account sender = customers.get(customer.getKey()).getDefaultAccount();
-				if(pay.handlePaymentRequest(sender, request)) {
+				Customer sender = auth.getCustomerFromCustomerID(customer);
+				Account senderAccount = sender.getDefaultAccount();
+				if(pay.handlePaymentRequest(senderAccount, request)) {
 					return "SUCCESS";
 				} else {
 					return "FAIL";
@@ -67,6 +77,6 @@ public class NewBank {
 	}
 
 	private String showMyAccounts(CustomerID customer) {
-		return (customers.get(customer.getKey())).accountsToString();
+		return auth.getCustomerFromCustomerID(customer).accountsToString();
 	}
 }
