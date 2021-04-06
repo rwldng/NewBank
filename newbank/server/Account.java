@@ -19,12 +19,12 @@ public class Account{
 		this.bankStatement.add("Opening Balance is " + openingBalance);
 		this.customer = customer;
 	}
-	
+
 	//Method that returns string accountName and openingBalance
 	public String toString() {
 		return (accountName + ": " + openingBalance);
 	}
-	
+
 	//Add amount
 	public boolean addAmount(double amount) throws Exception {
 		if(amount<=0) {
@@ -32,9 +32,9 @@ public class Account{
 		}
 		this.totalBalance += amount;
 		this.bankStatement.add("Amount added to the account is " + amount + "on date: " + LocalDate.now());
-		return true;			
+		return true;
 	}
-	
+
 	//Subtract amount
 	public boolean subtractAmount(double amount) throws Exception {
 		if(amount<=0) {
@@ -46,17 +46,17 @@ public class Account{
 		}
 		this.totalBalance -= amount;
 		this.bankStatement.add("Amount subtracted from the account is " + "on date: " + LocalDate.now());
-		return true;			
+		return true;
 	}
-	
+
 	//Get total balance
 	public double getTotalBalance() {
-		return this.totalBalance;			
+		return this.totalBalance;
 	}
-	
+
 	//Retrieve bank statement
 	public ArrayList<String> retrieveBankStatement() {
-		return this.bankStatement;		
+		return this.bankStatement;
 	}
 
 	//Print bank statement
@@ -64,8 +64,8 @@ public class Account{
 		System.out.println("Customer Name" + this.customer);
 		System.out.println("Account Name" + this.accountName);
 		for(int i = 0; i < this.bankStatement.size(); i++){
-		System.out.println(this.bankStatement.get(i));
+			System.out.println(this.bankStatement.get(i));
 		};
 	}
-	
+
 }
