@@ -11,7 +11,7 @@ public class Customer {
 
 	public String accountsToString() {
 		String s = "";
-		for(Account a : this.accounts) {
+		for (Account a : this.accounts) {
 			s += a.toString();
 		}
 		return s;
@@ -22,9 +22,21 @@ public class Customer {
 	}
 
 	public Account getDefaultAccount() {
-		if(!accounts.isEmpty()) {
+		if (!accounts.isEmpty()) {
 			return accounts.get(0);
 		}
 		return null;
+	}
+
+	public boolean checkingIfAccountExist(String accountName) {
+		if (accounts.isEmpty()) {
+			return false;
+		}
+
+		for (int i = 0; i < this.accounts.size(); i++) {
+			Account act = this.accounts.get(i);
+			act.checkAccountExist(accountName);
+		}
+		return false;
 	}
 }
