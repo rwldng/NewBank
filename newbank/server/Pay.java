@@ -6,13 +6,14 @@ public class Pay {
     public Pay() {
     }
 
-    // stackoverflow.com/questions/1102891/how-to-check-if-a-string-is-numeric-in-java
+    // ref: stackoverflow.com/questions/1102891/how-to-check-if-a-string-is-numeric-in-java
+    // checks if payment is all numbers and not negative
     private static boolean isValidPaymentAmount(String input) {
         return input.chars().allMatch(Character::isDigit);
     }
 
     // parses payment request
-    public boolean handlePaymentRequest(Account sender, String request) {
+    public boolean handlePaymentRequest(Account senderAccount, String request) {
         String[] requestParts = request.split(" ");
         int length = requestParts.length;
         int start = 1;
@@ -27,13 +28,13 @@ public class Pay {
 
         double paymentAmount = Double.parseDouble(requestParts[end]);
 
-        return makePayment(sender, paymentAmount);
+        return makePayment(senderAccount, paymentAmount);
     }
 
     // deducts amount from account
-    public boolean makePayment(Account sender, double paymentAmount) {
+    public boolean makePayment(Account senderAccount, double paymentAmount) {
         try {
-            sender.subtractAmount(paymentAmount);
+            senderAccount.subtractAmount(paymentAmount);
             return true;
         } catch (Exception e) {
             System.out.println(e);
